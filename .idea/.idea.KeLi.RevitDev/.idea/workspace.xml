@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7d684629-6ca3-4e2e-8a44-095844701f5a" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="MyCommands.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/KeLi.RevitDev.App/MyCommands.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2">
+              <caret line="255" column="0" lean-forward="false" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+              <folding>
+                <marker date="1567141592309" expanded="false" signature="6:334" ph="..." />
+                <marker date="1567141592309" expanded="true" signature="363:31412" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="370:421" ph="/// 曲线离散性能测试命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="569:10638" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="584:641" ph="/// 一个事务提交耗时 ... " />
+                <marker date="1567141592309" expanded="true" signature="709:768" ph="/// FOUR_TRANS ... " />
+                <marker date="1567141592309" expanded="true" signature="837:895" ph="/// 若干个事务提交耗时 ... " />
+                <marker date="1567141592309" expanded="true" signature="965:1018" ph="/// 性能测试 ... " />
+                <marker date="1567141592309" expanded="true" signature="1077:1135" ph="/// 曲线研究命令事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="1209:1426" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="1530:2539" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="2549:2722" ph="/// 测试用一个事务后的性能 ... " />
+                <marker date="1567141592309" expanded="true" signature="2803:5342" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="2931:3420" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="3004:3406" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="3554:4043" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="3627:4029" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="4177:4666" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="4250:4652" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="4800:5289" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="4873:5275" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="5352:5525" ph="/// 测试用四个事务后的性能 ... " />
+                <marker date="1567141592309" expanded="true" signature="5607:8148" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="5735:6224" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="5808:6210" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="6358:6847" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="6431:6833" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="6982:7471" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="7055:7457" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="7606:8095" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="7679:8081" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="8158:8331" ph="/// 测试用若干事务后的性能 ... " />
+                <marker date="1567141592309" expanded="true" signature="8413:10632" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="8559:8965" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="9102:9508" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="9645:10051" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="10188:10594" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="10644:10695" ph="/// 几何信息采集测试命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="10838:13355" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="10853:10907" ph="/// 三角片总数 ... " />
+                <marker date="1567141592309" expanded="true" signature="10971:11023" ph="/// 制表符 ... " />
+                <marker date="1567141592309" expanded="true" signature="11074:11131" ph="/// 当前面的三角片数 ... " />
+                <marker date="1567141592309" expanded="true" signature="11202:11253" ph="/// 换行 ... " />
+                <marker date="1567141592309" expanded="true" signature="11311:11362" ph="/// 回车 ... " />
+                <marker date="1567141592309" expanded="true" signature="11416:11473" ph="/// 图元几何数据文件 ... " />
+                <marker date="1567141592309" expanded="true" signature="11577:11794" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="11898:13349" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="12144:13301" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="12500:13081" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="12657:13061" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="13361:13410" ph="/// 测试命令控制命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="13549:13985" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="13564:13781" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="13885:13979" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="13991:14036" ph="/// 连接命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="14178:16148" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="14193:14249" ph="/// 连接命令事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="14320:14537" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="14641:16142" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="14978:16082" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="15396:16064" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="15480:16039" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="15538:15875" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="15939:16013" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="16154:16201" ph="/// 悬浮工具面板 ... " />
+                <marker date="1567141592309" expanded="true" signature="16346:16925" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="16361:16578" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="16682:16919" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="16931:16977" ph="/// 元素定位器 ... " />
+                <marker date="1567141592309" expanded="true" signature="17124:17907" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="17139:17356" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="17460:17901" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="17913:17958" ph="/// 外链测试 ... " />
+                <marker date="1567141592309" expanded="true" signature="18101:20057" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="18116:18333" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="18437:18636" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="18646:18703" ph="/// 创建临时目录结构 ... " />
+                <marker date="1567141592309" expanded="true" signature="18797:19241" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="18903:19202" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="19251:19434" ph="/// 批量拷贝文件 ... " />
+                <marker date="1567141592309" expanded="true" signature="19541:20051" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="19640:20012" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="19786:19998" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="20063:20108" ph="/// 参数命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="20245:21443" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="20260:20315" ph="/// 路径数据描述 ... " />
+                <marker date="1567141592309" expanded="true" signature="20388:20443" ph="/// 轮廓数据描述 ... " />
+                <marker date="1567141592309" expanded="true" signature="20522:20739" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="20843:21437" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="21185:21375" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="21449:21496" ph="/// 管线连接命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="21642:30423" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="21657:21711" ph="/// 族文件路径 ... " />
+                <marker date="1567141592309" expanded="true" signature="21838:21890" ph="/// 无配件 ... " />
+                <marker date="1567141592309" expanded="true" signature="21959:22012" ph="/// 线管接头 ... " />
+                <marker date="1567141592309" expanded="true" signature="22075:22126" ph="/// 三通 ... " />
+                <marker date="1567141592309" expanded="true" signature="22200:22252" ph="/// 过渡件 ... " />
+                <marker date="1567141592309" expanded="true" signature="22325:22376" ph="/// 四通 ... " />
+                <marker date="1567141592309" expanded="true" signature="22448:22504" ph="/// 连接线管事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="22574:22630" ph="/// 设置参数事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="22697:22754" ph="/// 设置族类型事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="22829:22886" ph="/// 清理族实例事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="22958:23014" ph="/// 清理管线事务名 ... " />
+                <marker date="1567141592309" expanded="true" signature="23082:23133" ph="/// 弯头 ... " />
+                <marker date="1567141592309" expanded="true" signature="23190:23242" ph="/// 活接头 ... " />
+                <marker date="1567141592309" expanded="true" signature="23299:23353" ph="/// T 形三通 ... " />
+                <marker date="1567141592309" expanded="true" signature="23410:23462" ph="/// 过渡件 ... " />
+                <marker date="1567141592309" expanded="true" signature="23519:23571" ph="/// 交叉线 ... " />
+                <marker date="1567141592309" expanded="true" signature="23628:23845" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="23949:24300" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="24310:24362" ph="/// 加载族 ... " />
+                <marker date="1567141592309" expanded="true" signature="24421:24970" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="24980:25201" ph="/// 创建线管 ... " />
+                <marker date="1567141592309" expanded="true" signature="25302:25846" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="25552:25836" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="25856:25948" ph="/// 清理线管 ... " />
+                <marker date="1567141592309" expanded="true" signature="26004:26144" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="26154:26247" ph="/// 清理族实例 ... " />
+                <marker date="1567141592309" expanded="true" signature="26309:26454" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="26464:26517" ph="/// 连接线管 ... " />
+                <marker date="1567141592309" expanded="true" signature="26578:27321" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="26805:27298" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="26856:27284" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="27331:27425" ph="/// 批量设置参数 ... " />
+                <marker date="1567141592309" expanded="true" signature="27480:29320" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="27627:29298" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="27702:29284" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="27890:29266" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="29330:29384" ph="/// 设置族类型 ... " />
+                <marker date="1567141592309" expanded="true" signature="29441:30417" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="29489:30389" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="30429:30477" ph="/// 可见性设置命令 ... " />
+                <marker date="1567141592309" expanded="true" signature="30623:31410" ph="{...}" />
+                <marker date="1567141592309" expanded="true" signature="30638:30698" ph="/// 可见性设置命令事务名称 ... " />
+                <marker date="1567141592309" expanded="true" signature="30770:30987" ph="/// 执行 ... " />
+                <marker date="1567141592309" expanded="true" signature="31091:31404" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41214D29-AEF2-49F2-BACE-2A17F5BF98F7/11/06cd8151/Enumerable.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/KeLi.RevitDev.App/MyCommands.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/KeLi.RevitDev.App/Command/MyCommands.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="94" />
+    <option name="y" value="256" />
+    <option name="width" value="1565" />
+    <option name="height" value="989" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource SolutionExplorer="true" />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="KeLi.RevitDev (1 project)" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="KeLi.RevitDev (1 project)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="KeLi.RevitDev.App" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="last_opened_file_path" value="C:/Program Files/Autodesk/Revit 2018/Revit.exe" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <envs />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d684629-6ca3-4e2e-8a44-095844701f5a" name="Default" comment="" />
+      <created>1566799382484</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566799382484</updated>
+      <workItem from="1566799385793" duration="3756000" />
+      <workItem from="1567141819987" duration="137000" />
+      <workItem from="1567144677052" duration="81000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="3974000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.30987734" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" x="1144" y="393" width="480" height="878" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/KeLi.RevitDev.App/MyCommands.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1567141592309" expanded="false" signature="6:334" ph="..." />
+            <marker date="1567141592309" expanded="true" signature="363:31412" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="370:421" ph="/// 曲线离散性能测试命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="569:10638" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="584:641" ph="/// 一个事务提交耗时 ... " />
+            <marker date="1567141592309" expanded="true" signature="709:768" ph="/// FOUR_TRANS ... " />
+            <marker date="1567141592309" expanded="true" signature="837:895" ph="/// 若干个事务提交耗时 ... " />
+            <marker date="1567141592309" expanded="true" signature="965:1018" ph="/// 性能测试 ... " />
+            <marker date="1567141592309" expanded="true" signature="1077:1135" ph="/// 曲线研究命令事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="1209:1426" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="1530:2539" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="2549:2722" ph="/// 测试用一个事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="2803:5342" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="2931:3420" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3004:3406" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3554:4043" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3627:4029" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4177:4666" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4250:4652" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4800:5289" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4873:5275" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5352:5525" ph="/// 测试用四个事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="5607:8148" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5735:6224" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5808:6210" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6358:6847" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6431:6833" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6982:7471" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7055:7457" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7606:8095" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7679:8081" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="8158:8331" ph="/// 测试用若干事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="8413:10632" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="8559:8965" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="9102:9508" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="9645:10051" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10188:10594" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10644:10695" ph="/// 几何信息采集测试命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="10838:13355" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10853:10907" ph="/// 三角片总数 ... " />
+            <marker date="1567141592309" expanded="true" signature="10971:11023" ph="/// 制表符 ... " />
+            <marker date="1567141592309" expanded="true" signature="11074:11131" ph="/// 当前面的三角片数 ... " />
+            <marker date="1567141592309" expanded="true" signature="11202:11253" ph="/// 换行 ... " />
+            <marker date="1567141592309" expanded="true" signature="11311:11362" ph="/// 回车 ... " />
+            <marker date="1567141592309" expanded="true" signature="11416:11473" ph="/// 图元几何数据文件 ... " />
+            <marker date="1567141592309" expanded="true" signature="11577:11794" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="11898:13349" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12144:13301" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12500:13081" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12657:13061" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13361:13410" ph="/// 测试命令控制命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="13549:13985" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13564:13781" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="13885:13979" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13991:14036" ph="/// 连接命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="14178:16148" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="14193:14249" ph="/// 连接命令事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="14320:14537" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="14641:16142" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="14978:16082" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15396:16064" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15480:16039" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15538:15875" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15939:16013" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16154:16201" ph="/// 悬浮工具面板 ... " />
+            <marker date="1567141592309" expanded="true" signature="16346:16925" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16361:16578" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="16682:16919" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16931:16977" ph="/// 元素定位器 ... " />
+            <marker date="1567141592309" expanded="true" signature="17124:17907" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="17139:17356" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="17460:17901" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="17913:17958" ph="/// 外链测试 ... " />
+            <marker date="1567141592309" expanded="true" signature="18101:20057" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18116:18333" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="18437:18636" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18646:18703" ph="/// 创建临时目录结构 ... " />
+            <marker date="1567141592309" expanded="true" signature="18797:19241" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18903:19202" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19251:19434" ph="/// 批量拷贝文件 ... " />
+            <marker date="1567141592309" expanded="true" signature="19541:20051" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19640:20012" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19786:19998" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="20063:20108" ph="/// 参数命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="20245:21443" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="20260:20315" ph="/// 路径数据描述 ... " />
+            <marker date="1567141592309" expanded="true" signature="20388:20443" ph="/// 轮廓数据描述 ... " />
+            <marker date="1567141592309" expanded="true" signature="20522:20739" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="20843:21437" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21185:21375" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21449:21496" ph="/// 管线连接命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="21642:30423" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21657:21711" ph="/// 族文件路径 ... " />
+            <marker date="1567141592309" expanded="true" signature="21838:21890" ph="/// 无配件 ... " />
+            <marker date="1567141592309" expanded="true" signature="21959:22012" ph="/// 线管接头 ... " />
+            <marker date="1567141592309" expanded="true" signature="22075:22126" ph="/// 三通 ... " />
+            <marker date="1567141592309" expanded="true" signature="22200:22252" ph="/// 过渡件 ... " />
+            <marker date="1567141592309" expanded="true" signature="22325:22376" ph="/// 四通 ... " />
+            <marker date="1567141592309" expanded="true" signature="22448:22504" ph="/// 连接线管事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22574:22630" ph="/// 设置参数事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22697:22754" ph="/// 设置族类型事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22829:22886" ph="/// 清理族实例事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22958:23014" ph="/// 清理管线事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="23082:23133" ph="/// 弯头 ... " />
+            <marker date="1567141592309" expanded="true" signature="23190:23242" ph="/// 活接头 ... " />
+            <marker date="1567141592309" expanded="true" signature="23299:23353" ph="/// T 形三通 ... " />
+            <marker date="1567141592309" expanded="true" signature="23410:23462" ph="/// 过渡件 ... " />
+            <marker date="1567141592309" expanded="true" signature="23519:23571" ph="/// 交叉线 ... " />
+            <marker date="1567141592309" expanded="true" signature="23628:23845" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="23949:24300" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="24310:24362" ph="/// 加载族 ... " />
+            <marker date="1567141592309" expanded="true" signature="24421:24970" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="24980:25201" ph="/// 创建线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="25302:25846" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="25552:25836" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="25856:25948" ph="/// 清理线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="26004:26144" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26154:26247" ph="/// 清理族实例 ... " />
+            <marker date="1567141592309" expanded="true" signature="26309:26454" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26464:26517" ph="/// 连接线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="26578:27321" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26805:27298" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26856:27284" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27331:27425" ph="/// 批量设置参数 ... " />
+            <marker date="1567141592309" expanded="true" signature="27480:29320" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27627:29298" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27702:29284" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27890:29266" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="29330:29384" ph="/// 设置族类型 ... " />
+            <marker date="1567141592309" expanded="true" signature="29441:30417" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="29489:30389" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="30429:30477" ph="/// 可见性设置命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="30623:31410" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="30638:30698" ph="/// 可见性设置命令事务名称 ... " />
+            <marker date="1567141592309" expanded="true" signature="30770:30987" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="31091:31404" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41214D29-AEF2-49F2-BACE-2A17F5BF98F7/11/06cd8151/Enumerable.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="1651" column="20" lean-forward="true" selection-start-line="1651" selection-start-column="20" selection-end-line="1651" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/KeLi.RevitDev.App/Command/MyCommands.cs" />
+    <entry file="file://$PROJECT_DIR$/KeLi.RevitDev.App/MyCommands.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="255" column="0" lean-forward="false" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <folding>
+            <marker date="1567141592309" expanded="false" signature="6:334" ph="..." />
+            <marker date="1567141592309" expanded="true" signature="363:31412" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="370:421" ph="/// 曲线离散性能测试命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="569:10638" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="584:641" ph="/// 一个事务提交耗时 ... " />
+            <marker date="1567141592309" expanded="true" signature="709:768" ph="/// FOUR_TRANS ... " />
+            <marker date="1567141592309" expanded="true" signature="837:895" ph="/// 若干个事务提交耗时 ... " />
+            <marker date="1567141592309" expanded="true" signature="965:1018" ph="/// 性能测试 ... " />
+            <marker date="1567141592309" expanded="true" signature="1077:1135" ph="/// 曲线研究命令事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="1209:1426" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="1530:2539" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="2549:2722" ph="/// 测试用一个事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="2803:5342" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="2931:3420" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3004:3406" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3554:4043" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="3627:4029" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4177:4666" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4250:4652" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4800:5289" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="4873:5275" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5352:5525" ph="/// 测试用四个事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="5607:8148" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5735:6224" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="5808:6210" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6358:6847" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6431:6833" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="6982:7471" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7055:7457" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7606:8095" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="7679:8081" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="8158:8331" ph="/// 测试用若干事务后的性能 ... " />
+            <marker date="1567141592309" expanded="true" signature="8413:10632" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="8559:8965" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="9102:9508" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="9645:10051" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10188:10594" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10644:10695" ph="/// 几何信息采集测试命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="10838:13355" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="10853:10907" ph="/// 三角片总数 ... " />
+            <marker date="1567141592309" expanded="true" signature="10971:11023" ph="/// 制表符 ... " />
+            <marker date="1567141592309" expanded="true" signature="11074:11131" ph="/// 当前面的三角片数 ... " />
+            <marker date="1567141592309" expanded="true" signature="11202:11253" ph="/// 换行 ... " />
+            <marker date="1567141592309" expanded="true" signature="11311:11362" ph="/// 回车 ... " />
+            <marker date="1567141592309" expanded="true" signature="11416:11473" ph="/// 图元几何数据文件 ... " />
+            <marker date="1567141592309" expanded="true" signature="11577:11794" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="11898:13349" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12144:13301" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12500:13081" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="12657:13061" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13361:13410" ph="/// 测试命令控制命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="13549:13985" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13564:13781" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="13885:13979" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="13991:14036" ph="/// 连接命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="14178:16148" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="14193:14249" ph="/// 连接命令事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="14320:14537" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="14641:16142" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="14978:16082" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15396:16064" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15480:16039" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15538:15875" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="15939:16013" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16154:16201" ph="/// 悬浮工具面板 ... " />
+            <marker date="1567141592309" expanded="true" signature="16346:16925" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16361:16578" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="16682:16919" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="16931:16977" ph="/// 元素定位器 ... " />
+            <marker date="1567141592309" expanded="true" signature="17124:17907" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="17139:17356" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="17460:17901" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="17913:17958" ph="/// 外链测试 ... " />
+            <marker date="1567141592309" expanded="true" signature="18101:20057" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18116:18333" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="18437:18636" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18646:18703" ph="/// 创建临时目录结构 ... " />
+            <marker date="1567141592309" expanded="true" signature="18797:19241" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="18903:19202" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19251:19434" ph="/// 批量拷贝文件 ... " />
+            <marker date="1567141592309" expanded="true" signature="19541:20051" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19640:20012" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="19786:19998" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="20063:20108" ph="/// 参数命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="20245:21443" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="20260:20315" ph="/// 路径数据描述 ... " />
+            <marker date="1567141592309" expanded="true" signature="20388:20443" ph="/// 轮廓数据描述 ... " />
+            <marker date="1567141592309" expanded="true" signature="20522:20739" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="20843:21437" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21185:21375" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21449:21496" ph="/// 管线连接命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="21642:30423" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="21657:21711" ph="/// 族文件路径 ... " />
+            <marker date="1567141592309" expanded="true" signature="21838:21890" ph="/// 无配件 ... " />
+            <marker date="1567141592309" expanded="true" signature="21959:22012" ph="/// 线管接头 ... " />
+            <marker date="1567141592309" expanded="true" signature="22075:22126" ph="/// 三通 ... " />
+            <marker date="1567141592309" expanded="true" signature="22200:22252" ph="/// 过渡件 ... " />
+            <marker date="1567141592309" expanded="true" signature="22325:22376" ph="/// 四通 ... " />
+            <marker date="1567141592309" expanded="true" signature="22448:22504" ph="/// 连接线管事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22574:22630" ph="/// 设置参数事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22697:22754" ph="/// 设置族类型事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22829:22886" ph="/// 清理族实例事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="22958:23014" ph="/// 清理管线事务名 ... " />
+            <marker date="1567141592309" expanded="true" signature="23082:23133" ph="/// 弯头 ... " />
+            <marker date="1567141592309" expanded="true" signature="23190:23242" ph="/// 活接头 ... " />
+            <marker date="1567141592309" expanded="true" signature="23299:23353" ph="/// T 形三通 ... " />
+            <marker date="1567141592309" expanded="true" signature="23410:23462" ph="/// 过渡件 ... " />
+            <marker date="1567141592309" expanded="true" signature="23519:23571" ph="/// 交叉线 ... " />
+            <marker date="1567141592309" expanded="true" signature="23628:23845" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="23949:24300" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="24310:24362" ph="/// 加载族 ... " />
+            <marker date="1567141592309" expanded="true" signature="24421:24970" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="24980:25201" ph="/// 创建线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="25302:25846" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="25552:25836" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="25856:25948" ph="/// 清理线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="26004:26144" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26154:26247" ph="/// 清理族实例 ... " />
+            <marker date="1567141592309" expanded="true" signature="26309:26454" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26464:26517" ph="/// 连接线管 ... " />
+            <marker date="1567141592309" expanded="true" signature="26578:27321" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26805:27298" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="26856:27284" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27331:27425" ph="/// 批量设置参数 ... " />
+            <marker date="1567141592309" expanded="true" signature="27480:29320" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27627:29298" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27702:29284" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="27890:29266" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="29330:29384" ph="/// 设置族类型 ... " />
+            <marker date="1567141592309" expanded="true" signature="29441:30417" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="29489:30389" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="30429:30477" ph="/// 可见性设置命令 ... " />
+            <marker date="1567141592309" expanded="true" signature="30623:31410" ph="{...}" />
+            <marker date="1567141592309" expanded="true" signature="30638:30698" ph="/// 可见性设置命令事务名称 ... " />
+            <marker date="1567141592309" expanded="true" signature="30770:30987" ph="/// 执行 ... " />
+            <marker date="1567141592309" expanded="true" signature="31091:31404" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

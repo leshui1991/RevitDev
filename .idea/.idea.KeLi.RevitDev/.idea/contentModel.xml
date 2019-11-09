@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\KeLi\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_KeLi.RevitDev.-104887024.00" t="ExcludeRecursive" />
+    <e p="C:\Users\KeLi\Documents\Visual Studio 2017\Projects\KeLi.RevitDev" t="IncludeFlat">
+      <e p="KeLi.RevitDev.App" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConnectElmFrm.cs" t="Include" />
+        <e p="ConnectElmFrm.Designer.cs" t="Include" />
+        <e p="ConnectElmFrm.resx" t="Include" />
+        <e p="DoTaskFrm.cs" t="Include" />
+        <e p="DoTaskFrm.Designer.cs" t="Include" />
+        <e p="DoTaskFrm.resx" t="Include" />
+        <e p="KeLi.RevitDev.App.addin" t="Include" />
+        <e p="KeLi.RevitDev.App.csproj" t="IncludeRecursive" />
+        <e p="LocateElmFrm.cs" t="Include" />
+        <e p="LocateElmFrm.Designer.cs" t="Include" />
+        <e p="LocateElmFrm.resx" t="Include" />
+        <e p="ManageRevitFrm.cs" t="Include" />
+        <e p="ManageRevitFrm.Designer.cs" t="Include" />
+        <e p="ManageRevitFrm.resx" t="Include" />
+        <e p="ModelTreeUtil.cs" t="Include" />
+        <e p="MyCommands.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+        </e>
+        <e p="RevitApp.cs" t="Include" />
+        <e p="RibbtonTab.cs" t="Include" />
+        <e p="ViewToolXam.xaml" t="Include" />
+        <e p="ViewToolXam.xaml.cs" t="Include" />
+      </e>
+      <e p="KeLi.RevitDev.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

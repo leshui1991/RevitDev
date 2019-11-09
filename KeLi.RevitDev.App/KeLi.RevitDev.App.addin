@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>KeLi.RevitDev.App</Name>
+    <Assembly>C:\Users\KeLi\Documents\Visual Studio 2019\Projects\KeLi.RevitDev\KeLi.RevitDev.App\bin\Debug\KeLi.RevitDev.App.dll</Assembly>
+    <AddInId>00f6108f-b267-33f7-b5f9-bdcb163309cd</AddInId>
+    <FullClassName>KeLi.RevitDev.App.Program</FullClassName>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

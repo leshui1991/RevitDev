@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61D940E1-FA70-4296-BFE3-D8DAC1CA1D71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KeLi.RevitDev.App</RootNamespace>
+    <AssemblyName>KeLi.RevitDev.App</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdWindows">
+      <HintPath>..\Libs\Revit.API.2018\AdWindows.dll</HintPath>
+    </Reference>
+    <Reference Include="KeLi.Common.Revit, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\KeLi.Common.1.0\KeLi.Common.Revit.dll</HintPath>
+    </Reference>
+    <Reference Include="KeLi.Common.Tool">
+      <HintPath>..\Libs\KeLi.Common.1.0\KeLi.Common.Tool.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Newtonsoft.Json.10\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RevitAPI">
+      <HintPath>..\Libs\Revit.API.2018\RevitAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\Libs\Revit.API.2018\RevitAPIUI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\ExternalEventCommand.cs" />
+    <Compile Include="Command\ConnectionCommand.cs" />
+    <Compile Include="Command\CurvePerformanceCommand.cs" />
+    <Compile Include="Command\ElementLocationCommand.cs" />
+    <Compile Include="Command\GeometryCollectionCommand.cs" />
+    <Compile Include="Command\ParamCommand.cs" />
+    <Compile Include="Command\DockablePanelCommand.cs" />
+    <Compile Include="Command\PickPointCommand.cs" />
+    <Compile Include="Command\SeatDesignCommand.cs" />
+    <Compile Include="Command\ElementCopyCommand.cs" />
+    <Compile Include="Common\SeatManager.cs" />
+    <Compile Include="Common\TestGeometry.cs" />
+    <Compile Include="Entity\DesignStatus.cs" />
+    <Compile Include="Entity\SeatInfo.cs" />
+    <Compile Include="Entity\SeatPlan.cs" />
+    <Compile Include="Common\SeatDesignAssist.cs" />
+    <Compile Include="Entity\PositionRequest.cs" />
+    <Compile Include="Frm\ConnectElmFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\ConnectElmFrm.Designer.cs">
+      <DependentUpon>ConnectElmFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm\DoTaskFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\DoTaskFrm.Designer.cs">
+      <DependentUpon>DoTaskFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm\LocateElmFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\LocateElmFrm.Designer.cs">
+      <DependentUpon>LocateElmFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Command\VisibleSettingCommand.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Frm\ViewToolXam.xaml.cs">
+      <DependentUpon>ViewToolXam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Frm\ConnectElmFrm.resx">
+      <DependentUpon>ConnectElmFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\DoTaskFrm.resx">
+      <DependentUpon>DoTaskFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\LocateElmFrm.resx">
+      <DependentUpon>LocateElmFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KeLi.RevitDev.App.addin">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Frm\ViewToolXam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\001.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\002.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\003.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\004.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\005.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\006.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

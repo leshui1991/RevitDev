@@ -1,0 +1,17 @@
+﻿<Page x:Class="KeLi.RevitDev.App.Frm.ViewToolXam"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="350" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Height="50">
+    <Grid Margin="0,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Column="0" x:Name="cbMultiRoom" Content="Select Room" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" />
+        <CheckBox Grid.Column="1" x:Name="cbMultiShop" Content="Select Shop" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" />
+        <CheckBox Grid.Column="2" x:Name="cbMultiFloor" Content="Select Floor" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" />
+    </Grid>
+</Page>
