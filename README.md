@@ -1,2 +1,2 @@
 # RevitDev
-This is demo project about revit api study.
+This is a revit api study project including some interesting functions.
