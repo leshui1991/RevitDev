@@ -80,11 +80,11 @@ namespace KeLi.RevitDev.App.Common
             doc.ActiveView.SetElementOverrides(seat.Id, graSetting);
         }
 
-        public static void SetSeatParameters(this Element seat, Document doc, DesignStatus status, SeatInfo info)
+        public static void SetSeatParameters(this Element seat, FillPatternElement fillPattern, Document doc, SeatInfo info)
         {
             seat.GetParameters(Resources.ParameterName_Width).FirstOrDefault()?.Set(info.Width);
             seat.GetParameters(Resources.ParameterName_Length).FirstOrDefault()?.Set(info.Length);
-            SetColorFill(seat, status.FillPattern, doc, info.FillColor);
+            seat.SetColorFill(fillPattern, doc, info.FillColor);
         }
 
         public static List<Line> GetEdgeList(this SpatialElement room)

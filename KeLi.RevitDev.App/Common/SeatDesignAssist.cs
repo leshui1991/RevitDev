@@ -74,6 +74,8 @@ namespace KeLi.RevitDev.App.Common
 
         private static FillPatternElement FillPattern { get; set; }
 
+        private static FamilyInstance RefSeat { get; set; }
+
         public static void AutoPutSeat(this Document doc, PickedBox box, PositionRequest request, List<SeatBatch> batches)
         {
             Doc = doc;
@@ -81,9 +83,9 @@ namespace KeLi.RevitDev.App.Common
             PickBox = box.ToBoundingBoxXYZ();
             PickEdges = PickBox.GetPlaneEdges();
             FillPattern = doc.GetFirstFillPattern();
-            Status.RefSeat = doc.GetFloorSeats().FirstOrDefault();
+            RefSeat = doc.GetFloorSeats().FirstOrDefault();
 
-            if (Status.RefSeat == null)
+            if (RefSeat == null)
             {
                 MessageBox.Show("The document has's any seat, please put a seat!");
                 return;
@@ -107,8 +109,8 @@ namespace KeLi.RevitDev.App.Common
             {
                 foreach (var seatInfo in seatInfos)
                 {
-                    var offset = seatInfo.Location - (Status.RefSeat.Location as LocationPoint)?.Point;
-                    var cloneSeatIds = ElementTransformUtils.CopyElement(Doc, Status.RefSeat.Id, offset).ToList();
+                    var offset = seatInfo.Location - (RefSeat.Location as LocationPoint)?.Point;
+                    var cloneSeatIds = ElementTransformUtils.CopyElement(Doc, RefSeat.Id, offset).ToList();
 
                     if (cloneSeatIds.Count == 0)
                     {
@@ -119,7 +121,7 @@ namespace KeLi.RevitDev.App.Common
                     var seat = Doc.GetElement(cloneSeatIds[0]);
 
                     // Sets the seat some parameters.
-                    seat.SetSeatParameters(doc, Status, seatInfo);
+                    seat.SetSeatParameters(FillPattern, doc, seatInfo);
 
                     // Sets the seat fill color.
                     seat.SetColorFill(FillPattern, doc, seatInfo.FillColor);

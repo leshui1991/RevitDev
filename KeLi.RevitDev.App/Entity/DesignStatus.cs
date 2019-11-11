@@ -62,8 +62,6 @@ namespace KeLi.RevitDev.App.Entity
 
         public List<Line> InsEdges { get; set; } = new List<Line>();
 
-        public FamilyInstance RefSeat { get; set; }
-
         public int RowNum { get; set; }
 
         public bool IsLastRow { get; set; }
