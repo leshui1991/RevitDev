@@ -54,14 +54,6 @@ namespace KeLi.RevitDev.App.Entity
 {
     public class DesignStatus
     {
-        public Document Doc { get; set; }
-
-        public BoundingBoxXYZ PickBox { get; set; } = new BoundingBoxXYZ();
-
-        public List<Line> PickEdges { get; set; } = new List<Line>();
-
-        public Room Room { get; set; }
-
         public BoundingBoxXYZ RoomBox { get; set; } = new BoundingBoxXYZ();
 
         public List<Line> RoomEdges { get; set; } = new List<Line>();
@@ -71,8 +63,6 @@ namespace KeLi.RevitDev.App.Entity
         public List<Line> InsEdges { get; set; } = new List<Line>();
 
         public FamilyInstance RefSeat { get; set; }
-
-        public FillPatternElement FillPattern { get; set; }
 
         public int RowNum { get; set; }
 

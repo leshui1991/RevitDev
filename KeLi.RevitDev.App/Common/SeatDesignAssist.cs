@@ -64,16 +64,24 @@ namespace KeLi.RevitDev.App.Common
     {
         private static DesignStatus Status { get; } = new DesignStatus();
 
-        public static PositionRequest Request { get; set; }
+        private static PositionRequest Request { get; set; }
+
+        private static Document Doc { get; set; }
+
+        private static BoundingBoxXYZ PickBox { get; set; } = new BoundingBoxXYZ();
+
+        private static List<Line> PickEdges { get; set; } = new List<Line>();
+
+        private static FillPatternElement FillPattern { get; set; }
 
         public static void AutoPutSeat(this Document doc, PickedBox box, PositionRequest request, List<SeatBatch> batches)
         {
+            Doc = doc;
             Request = request;
-            Status.Doc = doc;
-            Status.PickBox = box.ToBoundingBoxXYZ();
-            Status.PickEdges = Status.PickBox.GetPlaneEdges();
+            PickBox = box.ToBoundingBoxXYZ();
+            PickEdges = PickBox.GetPlaneEdges();
+            FillPattern = doc.GetFirstFillPattern();
             Status.RefSeat = doc.GetFloorSeats().FirstOrDefault();
-            Status.FillPattern = doc.GetFirstFillPattern();
 
             if (Status.RefSeat == null)
             {
@@ -87,12 +95,20 @@ namespace KeLi.RevitDev.App.Common
             var floorRooms = GetRoomListOnFloor();
             var seatInfos = GetSeatInfosOnFloor(floorRooms, batches);
 
-            Status.Doc.AutoTransaction(() =>
+            PutSeatList(doc, seatInfos);
+
+            if (!ConformPasswayWidth())
+                MessageBox.Show("The passsway width is qualified!");
+        }
+
+        private static void PutSeatList(Document doc, List<SeatInfo> seatInfos)
+        {
+            Doc.AutoTransaction(() =>
             {
                 foreach (var seatInfo in seatInfos)
                 {
                     var offset = seatInfo.Location - (Status.RefSeat.Location as LocationPoint)?.Point;
-                    var cloneSeatIds = ElementTransformUtils.CopyElement(Status.Doc, Status.RefSeat.Id, offset).ToList();
+                    var cloneSeatIds = ElementTransformUtils.CopyElement(Doc, Status.RefSeat.Id, offset).ToList();
 
                     if (cloneSeatIds.Count == 0)
                     {
@@ -100,13 +116,13 @@ namespace KeLi.RevitDev.App.Common
                         return;
                     }
 
-                    var seat = Status.Doc.GetElement(cloneSeatIds[0]);
+                    var seat = Doc.GetElement(cloneSeatIds[0]);
 
                     // Sets the seat some parameters.
                     seat.SetSeatParameters(doc, Status, seatInfo);
 
                     // Sets the seat fill color.
-                    seat.SetColorFill(Status.FillPattern, doc, seatInfo.FillColor);
+                    seat.SetColorFill(FillPattern, doc, seatInfo.FillColor);
 
                     if (!seatInfo.IsRotation)
                         continue;
@@ -117,51 +133,9 @@ namespace KeLi.RevitDev.App.Common
                     var line = Line.CreateBound(startPt, endPt);
 
                     // No use mirror, mirror element is very slow.
-                    ElementTransformUtils.RotateElement(Status.Doc, seat.Id, line, Math.PI);
+                    ElementTransformUtils.RotateElement(Doc, seat.Id, line, Math.PI);
                 }
             });
-
-            if (!ConformPasswayWidth())
-                MessageBox.Show("The passsway width is qualified!");
-        }
-
-        private static List<SeatInfo> GetSeatInfosOnFloor(List<Room> rooms, List<SeatBatch> batches)
-        {
-            var seatInfos = new List<SeatInfo>();
-
-            foreach (var room in rooms)
-            {
-                InitRoomStatus(room);
-
-                var nextPt = GetStartPoint();
-                var roomEdges = room.GetEdgeList();
-
-                foreach (var batch in batches)
-                {
-                    // When the next seat location isn't in the room polygon, breaks the loop.
-                    if (!CanPut(nextPt, roomEdges))
-                        break;
-
-                    // The next room should skips the batch, because the batch seats run out.
-                    if (batch.UsableNumber == 0)
-                        continue;
-
-                    seatInfos.AddRange(GetSeatInfosInRoom(roomEdges, batch, ref nextPt));
-                }
-            }
-
-            return seatInfos;
-        }
-
-        private static void InitRoomStatus(Room room)
-        {
-            Status.Room = room;
-            Status.RoomBox = room.GetBoundingBox(Status.Doc);
-            Status.RoomEdges = room.GetEdgeList();
-            Status.RowNum = 1;
-            Status.IsLastRow = false;
-            Status.InsBox = Status.RoomBox.GetInsBox(Status.PickBox);
-            Status.InsEdges = Status.InsBox.GetPlaneEdges();
         }
 
         private static XYZ GetStartPoint()
@@ -174,7 +148,7 @@ namespace KeLi.RevitDev.App.Common
             return Request.AlignLeft ? pt1 : pt2;
         }
 
-        private static List<SeatInfo> GetSeatInfosInRoom(List<Line> roomEdges, SeatBatch batch, ref XYZ nextPt)
+        private static List<SeatInfo> GetSeatInfosOnBatch(List<Line> roomEdges, SeatBatch batch, ref XYZ nextPt)
         {
             var results = new List<SeatInfo>();
             var canPut = true;
@@ -282,7 +256,7 @@ namespace KeLi.RevitDev.App.Common
         {
             var line = Line.CreateBound(new XYZ(nextPt.X, -10000000, nextPt.Z), new XYZ(nextPt.X, 10000000, nextPt.Z));
             var roomInsPts = line.GetPlaneInsPointList(Status.RoomEdges);
-            var boxInsPts = line.GetPlaneInsPointList(Status.PickEdges);
+            var boxInsPts = line.GetPlaneInsPointList(PickEdges);
             var roomInsMinY = roomInsPts.Min(m => m.Y);
             var boxInsMinY = boxInsPts.Min(m => m.Y);
 
@@ -290,6 +264,44 @@ namespace KeLi.RevitDev.App.Common
             nextPt = new XYZ(nextPt.X, Math.Max(roomInsMinY, boxInsMinY) + 0.2, nextPt.Z);
 
             return nextPt;
+        }
+
+        private static List<SeatInfo> GetSeatInfosOnFloor(List<Room> rooms, List<SeatBatch> batches)
+        {
+            var seatInfos = new List<SeatInfo>();
+
+            foreach (var room in rooms)
+            {
+                InitRoomStatus(room);
+
+                var nextPt = GetStartPoint();
+                var roomEdges = room.GetEdgeList();
+
+                foreach (var batch in batches)
+                {
+                    // When the next seat location isn't in the room polygon, breaks the loop.
+                    if (!CanPut(nextPt, roomEdges))
+                        break;
+
+                    // The next room should skips the batch, because the batch seats run out.
+                    if (batch.UsableNumber == 0)
+                        continue;
+
+                    seatInfos.AddRange(GetSeatInfosOnBatch(roomEdges, batch, ref nextPt));
+                }
+            }
+
+            return seatInfos;
+        }
+
+        private static void InitRoomStatus(Room room)
+        {
+            Status.RoomBox = room.GetBoundingBox(Doc);
+            Status.RoomEdges = room.GetEdgeList();
+            Status.RowNum = 1;
+            Status.IsLastRow = false;
+            Status.InsBox = Status.RoomBox.GetInsBox(PickBox);
+            Status.InsEdges = Status.InsBox.GetPlaneEdges();
         }
 
         private static bool CanPut(List<XYZ> pts, List<Line> roomEdges)
@@ -304,16 +316,16 @@ namespace KeLi.RevitDev.App.Common
 
         private static List<Room> GetRoomListOnFloor()
         {
-            var rooms = Status.Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>();
+            var rooms = Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>();
             var results = new List<Room>();
-            var boxVectors = Status.PickBox.GetPlaneVectors();
+            var boxVectors = PickBox.GetPlaneVectors();
 
             foreach (var room in rooms)
             {
                 var roomEdges = room.GetEdgeList();
                 var roomVectors = roomEdges.GetDistinctPointList();
                 var boxPtInRoom = boxVectors.Any(a => a.InPlanePolygon(roomEdges));
-                var roomPtInBox = roomVectors.Any(a => a.InPlanePolygon(Status.PickEdges));
+                var roomPtInBox = roomVectors.Any(a => a.InPlanePolygon(PickEdges));
 
                 if (!boxPtInRoom && !roomPtInBox)
                     continue;
