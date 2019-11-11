@@ -54,16 +54,16 @@ namespace KeLi.RevitDev.App.Entity
     {
         public SeatBatch(double length, double width, int totalNum, Color color)
         {
-            SeatLength = UnitUtils.Convert(length, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
-            SeatWidth = UnitUtils.Convert(width, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
+            Length = UnitUtils.Convert(length, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
+            Width = UnitUtils.Convert(width, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_DECIMAL_FEET);
             TotalNumber = totalNum;
             UsableNumber = totalNum;
             FillColor = color;
         }
 
-        public double SeatLength { get; }
+        public double Length { get; }
 
-        public double SeatWidth { get; }
+        public double Width { get; }
 
         public int TotalNumber { get; set; }
 

@@ -48,6 +48,7 @@
 
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 
 namespace KeLi.RevitDev.App.Entity
 {
@@ -55,27 +56,25 @@ namespace KeLi.RevitDev.App.Entity
     {
         public Document Doc { get; set; }
 
-        public PositionRequest Request { get; set; }
+        public BoundingBoxXYZ PickBox { get; set; } = new BoundingBoxXYZ();
 
-        public List<Line> BoxEdges { get; set; }
+        public List<Line> PickEdges { get; set; } = new List<Line>();
 
-        public List<XYZ> BoxVectors { get; set; }
+        public Room Room { get; set; }
 
-        public FamilyInstance ReferenceSeat { get; set; }
+        public BoundingBoxXYZ RoomBox { get; set; } = new BoundingBoxXYZ();
+
+        public List<Line> RoomEdges { get; set; } = new List<Line>();
+
+        public BoundingBoxXYZ InsBox { get; set; } = new BoundingBoxXYZ();
+
+        public List<Line> InsEdges { get; set; } = new List<Line>();
+
+        public FamilyInstance RefSeat { get; set; }
 
         public FillPatternElement FillPattern { get; set; }
 
-        public BoundingBoxXYZ CurrentRoomBox { get; set; }
-
-        public double CurrentY { get; set; }
-
-        public int CurrentRowNum { get; set; }
-
-        public double RoomMinX { get; set; }
-
-        public double RoomMaxX { get; set; }
-
-        public double RoomMaxY { get; set; }
+        public int RowNum { get; set; }
 
         public bool IsLastRow { get; set; }
     }

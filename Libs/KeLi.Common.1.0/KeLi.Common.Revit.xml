@@ -748,7 +748,7 @@
             Gets the result of whether the point is in the plane direction polygon.
             </summary>
             <param name="pt"></param>
-            <param name="lines"></param>
+            <param name="polygon"></param>
             <returns></returns>
         </member>
         <member name="M:KeLi.Common.Revit.Relation.PointPlaneRelation.InSpacePolygon(Autodesk.Revit.DB.XYZ,System.Collections.Generic.List{Autodesk.Revit.DB.Line})">
@@ -756,7 +756,7 @@
             Gets the result of whether the point is in the space direction polygon.
             </summary>
             <param name="pt"></param>
-            <param name="lines"></param>
+            <param name="polygon"></param>
             <returns></returns>
         </member>
         <member name="T:KeLi.Common.Revit.Relation.PointSolidRelation">
@@ -1660,6 +1660,21 @@
             <param name="box"></param>
             <returns></returns>
         </member>
+        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetInsBox(Autodesk.Revit.DB.BoundingBoxXYZ,Autodesk.Revit.DB.BoundingBoxXYZ)">
+            <summary>
+            Gets the intersection box between the box1 and the box2.
+            </summary>
+            <param name="box1"></param>
+            <param name="box2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.ToBoundingBoxXYZ(Autodesk.Revit.UI.Selection.PickedBox)">
+            <summary>
+            Converts to bouding box.
+            </summary>
+            <param name="box"></param>
+            <returns></returns>
+        </member>
         <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetRoundBox(Autodesk.Revit.DB.Element,Autodesk.Revit.DB.Document)">
             <summary>
             Gets the round box.
@@ -1690,34 +1705,6 @@
             <returns></returns>
         </member>
         <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetSpaceVectors(Autodesk.Revit.DB.BoundingBoxXYZ)">
-            <summary>
-            Gets the box's space 8 vectors.
-            </summary>
-            <param name="box"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetPlaneEdges(Autodesk.Revit.UI.Selection.PickedBox)">
-            <summary>
-            Gets the plane edge set and z axis value equals no zero.
-            </summary>
-            <param name="box"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetPlaneVectors(Autodesk.Revit.UI.Selection.PickedBox)">
-            <summary>
-            Gets the box's plane 4 vectors.
-            </summary>
-            <param name="box"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetSpaceEdges(Autodesk.Revit.UI.Selection.PickedBox)">
-            <summary>
-            Gets the space edge set.
-            </summary>
-            <param name="box"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KeLi.Common.Revit.Widget.BoxUtil.GetSpaceVectors(Autodesk.Revit.UI.Selection.PickedBox)">
             <summary>
             Gets the box's space 8 vectors.
             </summary>
@@ -1769,22 +1756,6 @@
             Millimeter to foot.
             </summary>
         </member>
-        <member name="M:KeLi.Common.Revit.Widget.NumberUtil.GetRound(System.Double,System.Int32)">
-            <summary>
-            Gets the round value.
-            </summary>
-            <param name="num"></param>
-            <param name="precision"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KeLi.Common.Revit.Widget.NumberUtil.GetPow(System.Double,System.Int32)">
-            <summary>
-            Gets the distance square.
-            </summary>
-            <param name="d"></param>
-            <param name="pow"></param>
-            <returns></returns>
-        </member>
         <member name="M:KeLi.Common.Revit.Widget.NumberUtil.ToFoot(System.Double)">
             <summary>
             Millimeter to foot.
@@ -1822,7 +1793,7 @@
             <summary>
             Allows the element to be picked.
             </summary>
-            <param name="elem"></param>
+            <param name="elm"></param>
             <returns></returns>
         </member>
         <member name="M:KeLi.Common.Revit.Widget.RoomSelection.AllowReference(Autodesk.Revit.DB.Reference,Autodesk.Revit.DB.XYZ)">
@@ -1861,14 +1832,14 @@
             <summary>
             Convers the space point to the plane point.
             </summary>
-            <param name="point"></param>
+            <param name="pt"></param>
             <returns></returns>
         </member>
         <member name="M:KeLi.Common.Revit.Widget.TypeConverter.ToReferArray(System.Collections.Generic.List{Autodesk.Revit.DB.Reference})">
             <summary>
             Converts the reference set to the reference array.
             </summary>
-            <param name="refers"></param>
+            <param name="refs"></param>
             <returns></returns>
         </member>
         <member name="M:KeLi.Common.Revit.Widget.TypeConverter.ToCurveArrArray(System.Collections.Generic.List{Autodesk.Revit.DB.CurveArray})">

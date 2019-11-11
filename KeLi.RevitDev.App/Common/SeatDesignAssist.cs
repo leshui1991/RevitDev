@@ -62,32 +62,37 @@ namespace KeLi.RevitDev.App.Common
 {
     public static class SeatDesignAssist
     {
-        private static DesignStatus CurrentStatus { get; } = new DesignStatus();
+        private static DesignStatus Status { get; } = new DesignStatus();
+
+        public static PositionRequest Request { get; set; }
 
         public static void AutoPutSeat(this Document doc, PickedBox box, PositionRequest request, List<SeatBatch> batches)
         {
-            CurrentStatus.Doc = doc;
-            CurrentStatus.BoxEdges = box.GetPlaneEdges();
-            CurrentStatus.BoxVectors = box.GetPlaneVectors();
-            CurrentStatus.Request = request;
-            CurrentStatus.ReferenceSeat = doc.GetFloorSeats().FirstOrDefault();
-            CurrentStatus.FillPattern = doc.GetFirstFillPattern();
+            Request = request;
+            Status.Doc = doc;
+            Status.PickBox = box.ToBoundingBoxXYZ();
+            Status.PickEdges = Status.PickBox.GetPlaneEdges();
+            Status.RefSeat = doc.GetFloorSeats().FirstOrDefault();
+            Status.FillPattern = doc.GetFirstFillPattern();
 
-            if (CurrentStatus.ReferenceSeat == null)
+            if (Status.RefSeat == null)
             {
                 MessageBox.Show("The document has's any seat, please put a seat!");
                 return;
             }
 
+            // It's very crucial and integral, else maybe produce some vacant space that can put seat.
+            batches = batches.OrderBy(o => o.Length).ToList();
+
             var floorRooms = GetRoomListOnFloor();
             var seatInfos = GetSeatInfosOnFloor(floorRooms, batches);
 
-            CurrentStatus.Doc.AutoTransaction(() =>
+            Status.Doc.AutoTransaction(() =>
             {
                 foreach (var seatInfo in seatInfos)
                 {
-                    var translation = seatInfo.Position - (CurrentStatus.ReferenceSeat.Location as LocationPoint)?.Point;
-                    var cloneSeatIds = ElementTransformUtils.CopyElement(CurrentStatus.Doc, CurrentStatus.ReferenceSeat.Id, translation).ToList();
+                    var offset = seatInfo.Location - (Status.RefSeat.Location as LocationPoint)?.Point;
+                    var cloneSeatIds = ElementTransformUtils.CopyElement(Status.Doc, Status.RefSeat.Id, offset).ToList();
 
                     if (cloneSeatIds.Count == 0)
                     {
@@ -95,24 +100,24 @@ namespace KeLi.RevitDev.App.Common
                         return;
                     }
 
-                    var seat = CurrentStatus.Doc.GetElement(cloneSeatIds[0]);
+                    var seat = Status.Doc.GetElement(cloneSeatIds[0]);
 
                     // Sets the seat some parameters.
-                    seat.SetSeatParameters(doc, CurrentStatus, seatInfo);
+                    seat.SetSeatParameters(doc, Status, seatInfo);
 
                     // Sets the seat fill color.
-                    seat.SetColorFill(CurrentStatus.FillPattern, doc, seatInfo.FillColor);
+                    seat.SetColorFill(Status.FillPattern, doc, seatInfo.FillColor);
 
                     if (!seatInfo.IsRotation)
                         continue;
 
-                    var location = seatInfo.Position;
-                    var startPt = new XYZ(location.X, location.Y + seatInfo.SeatLength / 2, 0);
-                    var endPt = new XYZ(location.X, location.Y + seatInfo.SeatLength / 2, 1);
+                    var location = seatInfo.Location;
+                    var startPt = new XYZ(location.X, location.Y + seatInfo.Length / 2, 0);
+                    var endPt = new XYZ(location.X, location.Y + seatInfo.Length / 2, 1);
                     var line = Line.CreateBound(startPt, endPt);
 
                     // No use mirror, mirror element is very slow.
-                    ElementTransformUtils.RotateElement(CurrentStatus.Doc, seat.Id, line, Math.PI);
+                    ElementTransformUtils.RotateElement(Status.Doc, seat.Id, line, Math.PI);
                 }
             });
 
@@ -126,20 +131,15 @@ namespace KeLi.RevitDev.App.Common
 
             foreach (var room in rooms)
             {
-                CurrentStatus.CurrentRoomBox = room.GetBoundingBox(CurrentStatus.Doc);
-                CurrentStatus.CurrentRowNum = 1;
-                CurrentStatus.RoomMinX = CurrentStatus.CurrentRoomBox.Min.X;
-                CurrentStatus.RoomMaxX = CurrentStatus.CurrentRoomBox.Max.X;
-                CurrentStatus.RoomMaxY = CurrentStatus.CurrentRoomBox.Max.Y;
-                CurrentStatus.IsLastRow = false;
+                InitRoomStatus(room);
 
-                var nextPt = GetStartSeatPosition();
-                var roomEdges = room.GetRoomEdgeList();
+                var nextPt = GetStartPoint();
+                var roomEdges = room.GetEdgeList();
 
                 foreach (var batch in batches)
                 {
                     // When the next seat location isn't in the room polygon, breaks the loop.
-                    if (!nextPt.InPlanePolygon(roomEdges))
+                    if (!CanPut(nextPt, roomEdges))
                         break;
 
                     // The next room should skips the batch, because the batch seats run out.
@@ -153,28 +153,34 @@ namespace KeLi.RevitDev.App.Common
             return seatInfos;
         }
 
-        private static XYZ GetStartSeatPosition()
+        private static void InitRoomStatus(Room room)
         {
-            var roomMin = CurrentStatus.CurrentRoomBox.Min;
-            var roomMax = CurrentStatus.CurrentRoomBox.Max;
-            var minX = Math.Max(roomMin.X, CurrentStatus.BoxVectors.Min(o => o.X));
-            var maxX = Math.Min(roomMax.X, CurrentStatus.BoxVectors.Max(o => o.X));
-            var minY = Math.Max(roomMin.Y, CurrentStatus.BoxVectors.Min(o => o.Y));
+            Status.Room = room;
+            Status.RoomBox = room.GetBoundingBox(Status.Doc);
+            Status.RoomEdges = room.GetEdgeList();
+            Status.RowNum = 1;
+            Status.IsLastRow = false;
+            Status.InsBox = Status.RoomBox.GetInsBox(Status.PickBox);
+            Status.InsEdges = Status.InsBox.GetPlaneEdges();
+        }
+
+        private static XYZ GetStartPoint()
+        {
+            var box = Status.InsBox;
+            var pt1 = new XYZ(box.Min.X + 0.01, box.Min.Y + 0.2, box.Min.Z);
+            var pt2 = new XYZ(box.Max.X - 0.01, box.Max.Y + 0.2, box.Min.Z);
 
             // TODO: I should solve the precision problem.
-            // The seat location is in left bottom postition.
-            return CurrentStatus.Request.AlignLeft ? new XYZ(minX + 0.01, minY + 0.2, roomMin.Z) : new XYZ(maxX - 0.01, minY + 0.2, roomMin.Z);
+            return Request.AlignLeft ? pt1 : pt2;
         }
 
         private static List<SeatInfo> GetSeatInfosInRoom(List<Line> roomEdges, SeatBatch batch, ref XYZ nextPt)
         {
             var results = new List<SeatInfo>();
-            var flag = true;
+            var canPut = true;
             var sum = 0;
 
-            CurrentStatus.CurrentY = nextPt.Y;
-
-            while (batch.UsableNumber > 0 && flag)
+            while (batch.UsableNumber > 0 && canPut)
             {
                 sum++;
 
@@ -185,11 +191,11 @@ namespace KeLi.RevitDev.App.Common
                     break;
                 }
 
-                var seat = new SeatInfo(nextPt, batch, CurrentStatus.CurrentRowNum)
+                var seat = new SeatInfo(nextPt, batch, Status.RowNum)
                 {
                     // The seat aligns left and double num or aligns right and single num, should be retated.
-                    IsRotation = CurrentStatus.Request.AlignLeft && CurrentStatus.CurrentRowNum % 2 == 0
-                        || !CurrentStatus.Request.AlignLeft && CurrentStatus.CurrentRowNum % 2 == 1
+                    IsRotation = Request.AlignLeft && Status.RowNum % 2 == 0
+                        || !Request.AlignLeft && Status.RowNum % 2 == 1
                 };
                 var pts = GetSeatVectors(batch, nextPt, seat);
 
@@ -199,7 +205,7 @@ namespace KeLi.RevitDev.App.Common
                     batch.UsableNumber -= 1;
                 }
 
-                nextPt = GetNextPt(roomEdges, batch, nextPt, ref flag);
+                nextPt = GetNextPt(batch, nextPt, ref canPut);
             }
 
             return results;
@@ -208,87 +214,106 @@ namespace KeLi.RevitDev.App.Common
         private static List<XYZ> GetSeatVectors(SeatBatch batch, XYZ nextPt, SeatInfo seat)
         {
             var leftBottomPt = nextPt;
-            var rightBottomPt = new XYZ(nextPt.X + batch.SeatWidth, nextPt.Y, nextPt.Z);
-            var leftTopPt = new XYZ(nextPt.X, nextPt.Y + batch.SeatLength, nextPt.Z);
-            var rightTopPt = new XYZ(nextPt.X + batch.SeatWidth, nextPt.Y + batch.SeatLength, nextPt.Z);
+            var rightBottomPt = new XYZ(nextPt.X + batch.Width, nextPt.Y, nextPt.Z);
+            var leftTopPt = new XYZ(nextPt.X, nextPt.Y + batch.Length, nextPt.Z);
+            var rightTopPt = new XYZ(nextPt.X + batch.Width, nextPt.Y + batch.Length, nextPt.Z);
 
             if (!seat.IsRotation)
                 return new List<XYZ> { leftBottomPt, rightBottomPt, leftTopPt, rightTopPt };
 
             // If you don't understand it, you should draw picture.
-            leftBottomPt = new XYZ(nextPt.X - batch.SeatWidth, nextPt.Y, nextPt.Z);
+            leftBottomPt = new XYZ(nextPt.X - batch.Width, nextPt.Y, nextPt.Z);
             rightBottomPt = nextPt;
-            leftTopPt = new XYZ(nextPt.X - batch.SeatWidth, nextPt.Y + batch.SeatLength, nextPt.Z);
-            rightTopPt = new XYZ(nextPt.X, nextPt.Y + batch.SeatLength, nextPt.Z);
+            leftTopPt = new XYZ(nextPt.X - batch.Width, nextPt.Y + batch.Length, nextPt.Z);
+            rightTopPt = new XYZ(nextPt.X, nextPt.Y + batch.Length, nextPt.Z);
 
             return new List<XYZ> { leftBottomPt, rightBottomPt, leftTopPt, rightTopPt };
         }
 
-        private static XYZ GetNextPt(List<Line> roomEdges, SeatBatch batch, XYZ nextPt, ref bool flag)
+        private static XYZ GetNextPt(SeatBatch batch, XYZ nextPt, ref bool canPut)
         {
             // The next seat location should set the location's y axis plus seat length.
-            nextPt = new XYZ(nextPt.X, nextPt.Y + batch.SeatLength, nextPt.Z);
+            nextPt = new XYZ(nextPt.X, nextPt.Y + batch.Length, nextPt.Z);
 
-            if (!CurrentStatus.IsLastRow && CurrentStatus.RoomMaxY - nextPt.Y < batch.SeatLength)
+            if (!Status.IsLastRow)
             {
-                CurrentStatus.CurrentRowNum++;
-
-                var pt1 = new XYZ(nextPt.X + CurrentStatus.Request.RowWidth, CurrentStatus.CurrentY, nextPt.Z);
-                var pt2 = new XYZ(nextPt.X - CurrentStatus.Request.RowWidth, CurrentStatus.CurrentY, nextPt.Z);
-                var pt3 = new XYZ(nextPt.X, CurrentStatus.CurrentY, nextPt.Z);
-
-                nextPt = CurrentStatus.CurrentRowNum % 2 == 0 ? CurrentStatus.Request.AlignLeft ? pt1 : pt2 : pt3;
-
-                var line = Line.CreateBound(new XYZ(nextPt.X, -10000000, nextPt.Z), new XYZ(nextPt.X, 10000000, nextPt.Z));
-
-                var roomInsPts = line.GetPlaneInsPointList(roomEdges);
-                var boxInsPts = line.GetPlaneInsPointList(CurrentStatus.BoxEdges);
-
-                if (roomInsPts.Count > 0)
+                if (nextPt.Y > Status.InsBox.Max.Y || Status.InsBox.Max.Y - nextPt.Y < batch.Length)
                 {
-                    var roomInsMinY = roomInsPts.Min(m => m.Y);
-                    var boxInsMinY = boxInsPts.Min(m => m.Y);
+                    Status.RowNum++;
+                    nextPt = CalcNewLinePosition(nextPt);
 
-                    // Revises the next point y value.
-                    CurrentStatus.CurrentY = Math.Max(roomInsMinY, boxInsMinY) + 0.2;
+                    // To not multi calc.
+                    canPut = Request.AlignLeft ? !(nextPt.X > Status.InsBox.Max.X) :
+                        !(nextPt.X < Status.InsBox.Min.X);
 
-                    nextPt = new XYZ(nextPt.X, CurrentStatus.CurrentY, nextPt.Z);
+                    // It's an invalid point, must return.
+                    // Because boxInsPts count is 0, throw new exception.
+                    if (!canPut)
+                        return nextPt;
+
+                    nextPt = ReviseYValue(nextPt);
                 }
+
+                var f1 = Status.InsBox.Max.X - nextPt.X <= batch.Width;
+                var f2 = nextPt.X - Status.InsBox.Min.X <= batch.Width;
+
+                // Not calc muilt times.
+                Status.IsLastRow = Request.AlignLeft ? f1 : f2;
             }
 
-            // Not calc muilt times.
-            if (!CurrentStatus.IsLastRow)
-                CurrentStatus.IsLastRow = CurrentStatus.Request.AlignLeft ? CurrentStatus.RoomMaxX - nextPt.X <= batch.SeatWidth
-                    : nextPt.X - CurrentStatus.RoomMinX <= batch.SeatWidth;
+            // If true, means that put last row and last column, should break.
+            if (Status.InsBox.Max.Y - nextPt.Y < batch.Length)
+                canPut = false;
 
-            // If puts last row and last column, should break.
-            if (CurrentStatus.RoomMaxY - nextPt.Y < batch.SeatLength)
-                flag = false;
+            return nextPt;
+        }
+
+        private static XYZ CalcNewLinePosition(XYZ nextPt)
+        {
+            var pt1 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Min.Y, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Min.Y, nextPt.Z);
+            var pt3 = new XYZ(nextPt.X, Status.InsBox.Min.Y, nextPt.Z);
+
+            nextPt = Status.RowNum % 2 == 0 ? Request.AlignLeft ? pt1 : pt2 : pt3;
+            return nextPt;
+        }
+
+        private static XYZ ReviseYValue(XYZ nextPt)
+        {
+            var line = Line.CreateBound(new XYZ(nextPt.X, -10000000, nextPt.Z), new XYZ(nextPt.X, 10000000, nextPt.Z));
+            var roomInsPts = line.GetPlaneInsPointList(Status.RoomEdges);
+            var boxInsPts = line.GetPlaneInsPointList(Status.PickEdges);
+            var roomInsMinY = roomInsPts.Min(m => m.Y);
+            var boxInsMinY = boxInsPts.Min(m => m.Y);
+
+            // Revises the next point y min value.
+            nextPt = new XYZ(nextPt.X, Math.Max(roomInsMinY, boxInsMinY) + 0.2, nextPt.Z);
 
             return nextPt;
         }
 
         private static bool CanPut(List<XYZ> pts, List<Line> roomEdges)
         {
-            return pts.All(a => CanPut(a, roomEdges));
+            return pts.All(a => CanPut(a, Status.InsEdges)) && pts.All(a => CanPut(a, roomEdges));
         }
 
         private static bool CanPut(XYZ pt, List<Line> roomEdges)
         {
-            return pt.InPlanePolygon(roomEdges) && pt.InPlanePolygon(CurrentStatus.BoxEdges);
+            return pt.InPlanePolygon(Status.InsEdges) && pt.InPlanePolygon(roomEdges);
         }
 
         private static List<Room> GetRoomListOnFloor()
         {
-            var rooms = CurrentStatus.Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>();
+            var rooms = Status.Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>();
             var results = new List<Room>();
+            var boxVectors = Status.PickBox.GetPlaneVectors();
 
             foreach (var room in rooms)
             {
-                var roomEdges = room.GetRoomEdgeList();
+                var roomEdges = room.GetEdgeList();
                 var roomVectors = roomEdges.GetDistinctPointList();
-                var boxPtInRoom = CurrentStatus.BoxVectors.Any(a => a.InPlanePolygon(roomEdges));
-                var roomPtInBox = roomVectors.Any(a => a.InPlanePolygon(CurrentStatus.BoxEdges));
+                var boxPtInRoom = boxVectors.Any(a => a.InPlanePolygon(roomEdges));
+                var roomPtInBox = roomVectors.Any(a => a.InPlanePolygon(Status.PickEdges));
 
                 if (!boxPtInRoom && !roomPtInBox)
                     continue;

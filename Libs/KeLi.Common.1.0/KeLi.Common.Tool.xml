@@ -209,7 +209,7 @@
             <summary>
             Encrypts the content.
             </summary>
-            <param name="context"></param>
+            <param name="content"></param>
             <param name="keys"></param>
             <param name="ivs"></param>
             <returns></returns>

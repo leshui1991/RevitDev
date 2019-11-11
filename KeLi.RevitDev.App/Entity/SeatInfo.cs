@@ -52,21 +52,21 @@ namespace KeLi.RevitDev.App.Entity
 {
     public class SeatInfo
     {
-        public SeatInfo(XYZ position, SeatBatch batch, int rowNum, bool isRotation = false)
+        public SeatInfo(XYZ location, SeatBatch batch, int rowNum, bool isRotation = false)
         {
-            Position = position;
-            SeatLength = batch.SeatLength;
-            SeatWidth = batch.SeatWidth;
+            Location = location;
+            Length = batch.Length;
+            Width = batch.Width;
             RowNum = rowNum;
             FillColor = batch.FillColor;
             IsRotation = isRotation;
         }
 
-        public XYZ Position { get; set; }
+        public XYZ Location { get; set; }
 
-        public double SeatLength { get; }
+        public double Length { get; }
 
-        public double SeatWidth { get; }
+        public double Width { get; }
 
         public int RowNum { get; set; }
 

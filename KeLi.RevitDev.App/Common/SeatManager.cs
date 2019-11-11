@@ -82,12 +82,12 @@ namespace KeLi.RevitDev.App.Common
 
         public static void SetSeatParameters(this Element seat, Document doc, DesignStatus status, SeatInfo info)
         {
-            seat.GetParameters(Resources.ParameterName_Width).FirstOrDefault()?.Set(info.SeatWidth);
-            seat.GetParameters(Resources.ParameterName_Length).FirstOrDefault()?.Set(info.SeatLength);
+            seat.GetParameters(Resources.ParameterName_Width).FirstOrDefault()?.Set(info.Width);
+            seat.GetParameters(Resources.ParameterName_Length).FirstOrDefault()?.Set(info.Length);
             SetColorFill(seat, status.FillPattern, doc, info.FillColor);
         }
 
-        public static List<Line> GetRoomEdgeList(this SpatialElement room)
+        public static List<Line> GetEdgeList(this SpatialElement room)
         {
             var result = new List<Line>();
             var option = new SpatialElementBoundaryOptions
