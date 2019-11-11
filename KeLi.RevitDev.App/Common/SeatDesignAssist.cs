@@ -55,6 +55,7 @@ using Autodesk.Revit.UI.Selection;
 using KeLi.Common.Revit.Relation;
 using KeLi.Common.Revit.Widget;
 using KeLi.RevitDev.App.Entity;
+using KeLi.RevitDev.App.Properties;
 using Line = Autodesk.Revit.DB.Line;
 using MessageBox = System.Windows.Forms.MessageBox;
 
@@ -103,6 +104,86 @@ namespace KeLi.RevitDev.App.Common
                 MessageBox.Show("The passsway width is qualified!");
         }
 
+        private static List<SeatInfo> GetSeatInfosOnFloor(List<Room> rooms, List<SeatBatch> batches)
+        {
+            var results = new List<SeatInfo>();
+
+            foreach (var room in rooms)
+            {
+                InitRoomStatus(room);
+
+                var alignBottom = !room.Name.Contains(Resources.RoomName_North);
+                var nextPt = GetStartPoint(alignBottom);
+                var roomEdges = room.GetEdgeList();
+
+                foreach (var batch in batches)
+                {
+                    // If the results count is 0, calls Max method throw new null exception
+                    if (results.Count > 0)
+                    {
+                        var f1 = Request.AlignLeft && nextPt.X > results.Max(m => m.Location.X);
+                        var f2 = !Request.AlignLeft && nextPt.X < results.Min(m => m.Location.X);
+
+                        // Goes to the next row, must revise y value.
+                        if (f1 || f2)
+                            nextPt = ReviseYValue(nextPt, alignBottom);
+                    }
+
+                    if (!alignBottom)
+                        nextPt = new XYZ(nextPt.X, nextPt.Y - batch.Length, nextPt.Z);
+
+                    // When the next seat location isn't in the room polygon, breaks the loop.
+                    if (!CanPut(nextPt))
+                        break;
+
+                    // The next room should skips the batch, because the batch seats run out.
+                    if (batch.UsableNumber == 0)
+                        continue;
+
+                    var seatInfos = GetSeatInfosOnBatch(batch, ref nextPt, alignBottom);
+
+                    results.AddRange(seatInfos);
+                }
+            }
+
+            return results;
+        }
+
+        private static List<SeatInfo> GetSeatInfosOnBatch(SeatBatch batch, ref XYZ nextPt, bool alignBottom)
+        {
+            var results = new List<SeatInfo>();
+            var canPut = true;
+            var sum = 0;
+            var f1 = Request.AlignLeft;
+            var f2 = Status.RowNum % 2 == 0;
+
+            while (batch.UsableNumber > 0 && canPut)
+            {
+                sum++;
+
+                // In order to not be an infinite loop.
+                if (sum > 1000)
+                {
+                    MessageBox.Show("The loop is endless, please contact the program's developer!");
+                    break;
+                }
+
+                // The seat aligns left and double num or aligns right and single num, should be retated.
+                var seat = new SeatInfo(nextPt, batch, Status.RowNum, f1 && f2 || !f1 && !f2);
+                var pts = GetSeatVectors(batch, nextPt, seat);
+
+                if (pts.All(CanPut))
+                {
+                    results.Add(seat);
+                    batch.UsableNumber -= 1;
+                }
+
+                nextPt = GetNextPt(batch, nextPt, ref canPut, alignBottom);
+            }
+
+            return results;
+        }
+
         private static void PutSeatList(Document doc, List<SeatInfo> seatInfos)
         {
             Doc.AutoTransaction(() =>
@@ -140,51 +221,17 @@ namespace KeLi.RevitDev.App.Common
             });
         }
 
-        private static XYZ GetStartPoint()
+        private static XYZ GetStartPoint(bool alignBottom)
         {
             var box = Status.InsBox;
-            var pt1 = new XYZ(box.Min.X + 0.01, box.Min.Y + 0.2, box.Min.Z);
-            var pt2 = new XYZ(box.Max.X - 0.01, box.Max.Y + 0.2, box.Min.Z);
 
             // TODO: I should solve the precision problem.
-            return Request.AlignLeft ? pt1 : pt2;
-        }
+            var pt1 = new XYZ(box.Min.X + 0.01, box.Min.Y + 0.2, box.Min.Z);
+            var pt2 = new XYZ(box.Max.X - 0.01, box.Min.Y + 0.2, box.Min.Z);
+            var pt3 = new XYZ(box.Min.X + 0.01, box.Max.Y - 0.2, box.Min.Z);
+            var pt4 = new XYZ(box.Max.X - 0.01, box.Max.Y - 0.2, box.Min.Z);
 
-        private static List<SeatInfo> GetSeatInfosOnBatch(List<Line> roomEdges, SeatBatch batch, ref XYZ nextPt)
-        {
-            var results = new List<SeatInfo>();
-            var canPut = true;
-            var sum = 0;
-
-            while (batch.UsableNumber > 0 && canPut)
-            {
-                sum++;
-
-                // In order to not be an infinite loop.
-                if (sum > 1000)
-                {
-                    MessageBox.Show("The loop is endless, please contact the program's developer!");
-                    break;
-                }
-
-                var seat = new SeatInfo(nextPt, batch, Status.RowNum)
-                {
-                    // The seat aligns left and double num or aligns right and single num, should be retated.
-                    IsRotation = Request.AlignLeft && Status.RowNum % 2 == 0
-                        || !Request.AlignLeft && Status.RowNum % 2 == 1
-                };
-                var pts = GetSeatVectors(batch, nextPt, seat);
-
-                if (CanPut(pts, roomEdges))
-                {
-                    results.Add(seat);
-                    batch.UsableNumber -= 1;
-                }
-
-                nextPt = GetNextPt(batch, nextPt, ref canPut);
-            }
-
-            return results;
+            return Request.AlignLeft ? alignBottom ? pt1 : pt3 : alignBottom ? pt2 : pt4;
         }
 
         private static List<XYZ> GetSeatVectors(SeatBatch batch, XYZ nextPt, SeatInfo seat)
@@ -206,17 +253,23 @@ namespace KeLi.RevitDev.App.Common
             return new List<XYZ> { leftBottomPt, rightBottomPt, leftTopPt, rightTopPt };
         }
 
-        private static XYZ GetNextPt(SeatBatch batch, XYZ nextPt, ref bool canPut)
+        private static XYZ GetNextPt(SeatBatch batch, XYZ nextPt, ref bool canPut, bool alignBottom)
         {
             // The next seat location should set the location's y axis plus seat length.
-            nextPt = new XYZ(nextPt.X, nextPt.Y + batch.Length, nextPt.Z);
+            var pt1 = new XYZ(nextPt.X, nextPt.Y + batch.Length, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X, nextPt.Y - batch.Length, nextPt.Z);
+
+            nextPt = alignBottom ? pt1 : pt2;
+
+            var f1 = nextPt.Y > Status.InsBox.Max.Y || Status.InsBox.Max.Y - nextPt.Y < batch.Length;
+            var f2 = nextPt.Y < Status.InsBox.Min.Y || nextPt.Y - Status.InsBox.Min.Y < batch.Length;
 
             if (!Status.IsLastRow)
             {
-                if (nextPt.Y > Status.InsBox.Max.Y || Status.InsBox.Max.Y - nextPt.Y < batch.Length)
+                if (alignBottom ? f1 : f2)
                 {
                     Status.RowNum++;
-                    nextPt = CalcNewLinePosition(nextPt);
+                    nextPt = CalcNewLinePosition(nextPt, alignBottom);
 
                     // To not multi calc.
                     canPut = Request.AlignLeft ? !(nextPt.X > Status.InsBox.Max.X) :
@@ -227,73 +280,52 @@ namespace KeLi.RevitDev.App.Common
                     if (!canPut)
                         return nextPt;
 
-                    nextPt = ReviseYValue(nextPt);
+                    nextPt = ReviseYValue(nextPt, alignBottom);
                 }
 
-                var f1 = Status.InsBox.Max.X - nextPt.X <= batch.Width;
-                var f2 = nextPt.X - Status.InsBox.Min.X <= batch.Width;
+                var f3 = Status.InsBox.Max.X - nextPt.X <= batch.Width;
+                var f4 = nextPt.X - Status.InsBox.Min.X <= batch.Width;
 
                 // Not calc muilt times.
-                Status.IsLastRow = Request.AlignLeft ? f1 : f2;
+                Status.IsLastRow = Request.AlignLeft ? f3 : f4;
             }
 
             // If true, means that put last row and last column, should break.
-            if (Status.InsBox.Max.Y - nextPt.Y < batch.Length)
+            if (alignBottom ? f1 : f2)
                 canPut = false;
 
             return nextPt;
         }
 
-        private static XYZ CalcNewLinePosition(XYZ nextPt)
+        private static XYZ CalcNewLinePosition(XYZ nextPt, bool alignBottom)
         {
-            var pt1 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Min.Y, nextPt.Z);
-            var pt2 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Min.Y, nextPt.Z);
-            var pt3 = new XYZ(nextPt.X, Status.InsBox.Min.Y, nextPt.Z);
+            var pt1 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Min.Y + 0.2, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Min.Y + 0.2, nextPt.Z);
+            var pt3 = new XYZ(nextPt.X, Status.InsBox.Min.Y + 0.2, nextPt.Z);
+            var pt4 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Max.Y - 0.2, nextPt.Z);
+            var pt5 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Max.Y - 0.2, nextPt.Z);
+            var pt6 = new XYZ(nextPt.X, Status.InsBox.Max.Y - 0.2, nextPt.Z);
+            var f1 = Status.RowNum % 2 == 0;
+            var f2 = Request.AlignLeft;
 
-            nextPt = Status.RowNum % 2 == 0 ? Request.AlignLeft ? pt1 : pt2 : pt3;
-            return nextPt;
+            return alignBottom ? f1 ? f2 ? pt1 : pt2 : pt3 : f1 ? f2 ? pt4 : pt5 : pt6;
         }
 
-        private static XYZ ReviseYValue(XYZ nextPt)
+        private static XYZ ReviseYValue(XYZ nextPt, bool alignBottom)
         {
             var line = Line.CreateBound(new XYZ(nextPt.X, -10000000, nextPt.Z), new XYZ(nextPt.X, 10000000, nextPt.Z));
             var roomInsPts = line.GetPlaneInsPointList(Status.RoomEdges);
             var boxInsPts = line.GetPlaneInsPointList(PickEdges);
             var roomInsMinY = roomInsPts.Min(m => m.Y);
             var boxInsMinY = boxInsPts.Min(m => m.Y);
+            var roomInsMaxY = roomInsPts.Max(m => m.Y);
+            var boxInsMaxY = boxInsPts.Max(m => m.Y);
 
             // Revises the next point y min value.
-            nextPt = new XYZ(nextPt.X, Math.Max(roomInsMinY, boxInsMinY) + 0.2, nextPt.Z);
+            var pt1 = new XYZ(nextPt.X, Math.Max(roomInsMinY, boxInsMinY) + 0.2, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X, Math.Min(roomInsMaxY, boxInsMaxY) - 0.2, nextPt.Z);
 
-            return nextPt;
-        }
-
-        private static List<SeatInfo> GetSeatInfosOnFloor(List<Room> rooms, List<SeatBatch> batches)
-        {
-            var seatInfos = new List<SeatInfo>();
-
-            foreach (var room in rooms)
-            {
-                InitRoomStatus(room);
-
-                var nextPt = GetStartPoint();
-                var roomEdges = room.GetEdgeList();
-
-                foreach (var batch in batches)
-                {
-                    // When the next seat location isn't in the room polygon, breaks the loop.
-                    if (!CanPut(nextPt, roomEdges))
-                        break;
-
-                    // The next room should skips the batch, because the batch seats run out.
-                    if (batch.UsableNumber == 0)
-                        continue;
-
-                    seatInfos.AddRange(GetSeatInfosOnBatch(roomEdges, batch, ref nextPt));
-                }
-            }
-
-            return seatInfos;
+            return alignBottom ? pt1 : pt2;
         }
 
         private static void InitRoomStatus(Room room)
@@ -306,14 +338,9 @@ namespace KeLi.RevitDev.App.Common
             Status.InsEdges = Status.InsBox.GetPlaneEdges();
         }
 
-        private static bool CanPut(List<XYZ> pts, List<Line> roomEdges)
+        private static bool CanPut(XYZ pt)
         {
-            return pts.All(a => CanPut(a, Status.InsEdges)) && pts.All(a => CanPut(a, roomEdges));
-        }
-
-        private static bool CanPut(XYZ pt, List<Line> roomEdges)
-        {
-            return pt.InPlanePolygon(Status.InsEdges) && pt.InPlanePolygon(roomEdges);
+            return pt.InPlanePolygon(Status.InsEdges) && pt.InPlanePolygon(Status.RoomEdges);
         }
 
         private static List<Room> GetRoomListOnFloor()

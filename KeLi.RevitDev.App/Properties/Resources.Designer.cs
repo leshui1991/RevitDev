@@ -137,5 +137,14 @@ namespace KeLi.RevitDev.App.Properties {
                 return ResourceManager.GetString("ParameterName_Width", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 北.
+        /// </summary>
+        internal static string RoomName_North {
+            get {
+                return ResourceManager.GetString("RoomName_North", resourceCulture);
+            }
+        }
     }
 }

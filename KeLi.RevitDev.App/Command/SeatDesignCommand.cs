@@ -75,10 +75,13 @@ namespace KeLi.RevitDev.App.Command
             var request = new PositionRequest(4200, 1500, true);
             var batches = new List<SeatBatch>
             {
-                new SeatBatch(7000, 800, 1, new Color(255, 0, 77)),
                 new SeatBatch(1800, 800, 2, new Color(180, 0, 33)),
-                new SeatBatch(3000, 700, 12, new Color(255, 55, 0)),
-                new SeatBatch(3500, 700, 10, new Color(150, 88, 33))
+                new SeatBatch(3000, 700, 1, new Color(255, 55, 0)),
+                //new SeatBatch(3700, 800, 3, new Color(180, 0, 33)),
+                //new SeatBatch(4500, 700, 5, new Color(255, 55, 0)),
+
+                //new SeatBatch(7000, 800, 1, new Color(255, 0, 77)),
+                //new SeatBatch(3500, 700, 10, new Color(150, 88, 33))
             };
 
             uidoc.Document.AutoPutSeat(box, request, batches);
