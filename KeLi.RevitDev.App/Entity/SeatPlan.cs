@@ -46,11 +46,12 @@
         /_==__==========__==_ooo__ooo=_/'   /___________,"
 */
 
+using System;
 using Autodesk.Revit.DB;
 
 namespace KeLi.RevitDev.App.Entity
 {
-    public class SeatBatch
+    public class SeatBatch : ICloneable
     {
         public SeatBatch(double length, double width, int totalNum, Color color)
         {
@@ -70,5 +71,10 @@ namespace KeLi.RevitDev.App.Entity
         public int UsableNumber { get; set; }
 
         public Color FillColor { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }
