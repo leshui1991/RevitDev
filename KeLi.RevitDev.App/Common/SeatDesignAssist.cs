@@ -63,7 +63,15 @@ namespace KeLi.RevitDev.App.Common
 {
     public static class SeatDesignAssist
     {
-        private static DesignStatus Status { get; } = new DesignStatus();
+        private static BoundingBoxXYZ RoomBox { get; set; } = new BoundingBoxXYZ();
+
+        private static List<Line> RoomEdges { get; set; } = new List<Line>();
+
+        private static BoundingBoxXYZ InsBox { get; set; } = new BoundingBoxXYZ();
+
+        private static List<Line> InsEdges { get; set; } = new List<Line>();
+
+        private static int RowNum { get; set; }
 
         private static PositionRequest Request { get; set; }
 
@@ -107,7 +115,7 @@ namespace KeLi.RevitDev.App.Common
 
             foreach (var room in rooms)
             {
-                InitRoomStatus(room);
+                InitRoomRoom(room);
 
                 // Copies a new seat batch list, it's for each room.
                 var currentBatches = batches.Select(s => s.Clone()).Cast<SeatBatch>().ToList();
@@ -118,10 +126,10 @@ namespace KeLi.RevitDev.App.Common
                 for (var i = 0; i < currentBatches.Count; i++)
                 {
                     // If puts seat to last row, skips the current task.
-                    if (Request.AlignLeft ? nextPt.X > Status.InsBox.Max.X : nextPt.X < Status.InsBox.Min.X)
+                    if (Request.AlignLeft ? nextPt.X > InsBox.Max.X : nextPt.X < InsBox.Min.X)
                         continue;
 
-                    // If the results count is 0, calls Max method throw new null exception
+                    // If the index is 0, when program calls Max method, it will throw new null exception.
                     if (i > 0)
                     {
                         var f1 = Request.AlignLeft && nextPt.X > results.Max(m => m.Location.X);
@@ -129,15 +137,11 @@ namespace KeLi.RevitDev.App.Common
 
                         // Goes to the next row, must revise y value.
                         if (f1 || f2)
-                            nextPt = ReviseYValue(nextPt, alignBottom);
+                            nextPt = ReviseYValue(nextPt, currentBatches[i], alignBottom);
 
-                        if (!alignBottom)
-                        {
-                            if (f1 || f2)
-                                nextPt = new XYZ(nextPt.X, nextPt.Y - currentBatches[i].Length, nextPt.Z);
-                            else
-                                nextPt = new XYZ(nextPt.X, nextPt.Y + currentBatches[i - 1].Length - currentBatches[i].Length, nextPt.Z);
-                        }
+                        // It means that don't need newline and revise y value, I suggest you can draw picture.
+                        if (!alignBottom && !f1 && !f2)
+                            nextPt = new XYZ(nextPt.X, nextPt.Y + currentBatches[i - 1].Length, nextPt.Z);
                     }
                     else if (!alignBottom)
                         nextPt = new XYZ(nextPt.X, nextPt.Y - currentBatches[i].Length, nextPt.Z);
@@ -177,10 +181,10 @@ namespace KeLi.RevitDev.App.Common
                     break;
                 }
 
-                var f2 = Status.RowNum % 2 == 0;
+                var f2 = RowNum % 2 == 0;
 
                 // The seat aligns left and double num or aligns right and single num, should be retated.
-                var seat = new SeatInfo(nextPt, batch, Status.RowNum, f1 && f2 || !f1 && !f2);
+                var seat = new SeatInfo(nextPt, batch, RowNum, f1 && f2 || !f1 && !f2);
                 var pts = GetSeatVectors(batch, nextPt, seat);
 
                 if (pts.All(CanPut))
@@ -203,48 +207,28 @@ namespace KeLi.RevitDev.App.Common
 
             nextPt = alignBottom ? pt1 : pt2;
 
-            var f1 = nextPt.Y > Status.InsBox.Max.Y || Status.InsBox.Max.Y - nextPt.Y < batch.Length;
+            var f1 = nextPt.Y > InsBox.Max.Y || InsBox.Max.Y - nextPt.Y < batch.Length;
 
             // If seat aligns bottom, then goes to next row util the next point y is less than ins box min y.
-            var f2 = nextPt.Y < Status.InsBox.Min.Y && nextPt.Y - Status.InsBox.Min.Y < batch.Length;
+            var f2 = nextPt.Y < InsBox.Min.Y && nextPt.Y - InsBox.Min.Y < batch.Length;
 
-            if (!Status.IsLastRow)
-            {
-                if (alignBottom ? f1 : f2)
-                {
-                    Status.RowNum++;
-                    nextPt = CalcNewRowPosition(nextPt, batch, alignBottom);
+            // The next point don't need newline.
+            if (alignBottom ? !f1 : !f2)
+                return nextPt;
 
-                    // To not multi calc.
-                    canPut = Request.AlignLeft ? !(nextPt.X > Status.InsBox.Max.X) :
-                        !(nextPt.X < Status.InsBox.Min.X);
+            RowNum++;
+            nextPt = CalcNewRowPosition(nextPt, batch, alignBottom);
 
-                    // It's an invalid point, must return.
-                    // Because boxInsPts count is 0, throw new exception.
-                    if (!canPut)
-                        return nextPt;
+            // To not multi calc.
+            canPut = Request.AlignLeft ? !(nextPt.X > InsBox.Max.X) : !(nextPt.X < InsBox.Min.X);
 
-                    if (!alignBottom && Status.RowNum % 2 == 1)
-                    {
-                        nextPt = ReviseYValue(nextPt, false);
-                        nextPt = new XYZ(nextPt.X, nextPt.Y - batch.Length, nextPt.Z);
-                    }
-                }
+            // It's an invalid point, must return.
+            // Because boxInsPts count is 0, throw new exception.
+            if (!canPut)
+                return nextPt;
 
-                // Must compares again.
-                var f3 = Status.InsBox.Max.X - nextPt.X < batch.Width;
-                var f4 = nextPt.Y < Status.InsBox.Min.Y;
-
-                // Not calc muilt times.
-                Status.IsLastRow = Request.AlignLeft ? f3 : f4;
-            }
-
-            f1 = nextPt.Y > Status.InsBox.Max.Y || Status.InsBox.Max.Y - nextPt.Y < batch.Length;
-            f2 = nextPt.Y < Status.InsBox.Min.Y && nextPt.Y - Status.InsBox.Min.Y > batch.Length;
-
-            // If true, means that put last row and last column, should break.
-            if (alignBottom ? f1 : f2)
-                canPut = false;
+            if (RowNum % 2 == 1)
+                nextPt = ReviseYValue(nextPt, batch, alignBottom);
 
             return nextPt;
         }
@@ -288,7 +272,7 @@ namespace KeLi.RevitDev.App.Common
 
         private static XYZ GetStartPoint(bool alignBottom)
         {
-            var box = Status.InsBox;
+            var box = InsBox;
             var pt1 = new XYZ(box.Min.X + 0.01, box.Min.Y + 0.05, box.Min.Z);
             var pt2 = new XYZ(box.Min.X + 0.01, box.Max.Y - 0.05, box.Min.Z);
             var pt3 = new XYZ(box.Max.X - 0.01, box.Min.Y + 0.05, box.Min.Z);
@@ -318,25 +302,26 @@ namespace KeLi.RevitDev.App.Common
 
         private static XYZ CalcNewRowPosition(XYZ nextPt, SeatBatch batch, bool alignBottom)
         {
-            var pt1 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Min.Y + 0.05, nextPt.Z);
-            var pt2 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Min.Y + 0.05, nextPt.Z);
-            var pt3 = new XYZ(nextPt.X, Status.InsBox.Min.Y + 0.05, nextPt.Z);
+            var pt1 = new XYZ(nextPt.X + Request.RowWidth, InsBox.Min.Y + 0.05, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X - Request.RowWidth, InsBox.Min.Y + 0.05, nextPt.Z);
+            var pt3 = new XYZ(nextPt.X, InsBox.Min.Y + 0.05, nextPt.Z);
 
             // If seat don't align bottom, the seat y value must redure on new row
-            var pt4 = new XYZ(nextPt.X + Request.RowWidth, Status.InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
-            var pt5 = new XYZ(nextPt.X - Request.RowWidth, Status.InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
-            var pt6 = new XYZ(nextPt.X, Status.InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
+            var pt4 = new XYZ(nextPt.X + Request.RowWidth, InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
+            var pt5 = new XYZ(nextPt.X - Request.RowWidth, InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
+            var pt6 = new XYZ(nextPt.X, InsBox.Max.Y - batch.Length - 0.05, nextPt.Z);
 
-            var f1 = Status.RowNum % 2 == 0;
+            var f1 = RowNum % 2 == 0;
             var f2 = Request.AlignLeft;
+            var result = alignBottom ? (f1 ? (f2 ? pt1 : pt2) : pt3) : (f1 ? (f2 ? pt4 : pt5) : pt6);
 
-            return alignBottom ? (f1 ? (f2 ? pt1 : pt2) : pt3) : (f1 ? (f2 ? pt4 : pt5) : pt6);
+            return result;
         }
 
-        private static XYZ ReviseYValue(XYZ nextPt, bool alignBottom)
+        private static XYZ ReviseYValue(XYZ nextPt, SeatBatch batch, bool alignBottom)
         {
             var line = Line.CreateBound(new XYZ(nextPt.X, -10000000, nextPt.Z), new XYZ(nextPt.X, 10000000, nextPt.Z));
-            var roomInsPts = line.GetPlaneInsPointList(Status.RoomEdges);
+            var roomInsPts = line.GetPlaneInsPointList(RoomEdges);
             var boxInsPts = line.GetPlaneInsPointList(PickEdges);
             var roomInsMinY = roomInsPts.Min(m => m.Y);
             var boxInsMinY = boxInsPts.Min(m => m.Y);
@@ -345,24 +330,23 @@ namespace KeLi.RevitDev.App.Common
 
             // Revises the next point y min value.
             var pt1 = new XYZ(nextPt.X, Math.Max(roomInsMinY, boxInsMinY) + 0.05, nextPt.Z);
-            var pt2 = new XYZ(nextPt.X, Math.Min(roomInsMaxY, boxInsMaxY) - 0.05, nextPt.Z);
+            var pt2 = new XYZ(nextPt.X, Math.Min(roomInsMaxY, boxInsMaxY) - batch.Length - 0.05, nextPt.Z);
 
             return alignBottom ? pt1 : pt2;
         }
 
-        private static void InitRoomStatus(Room room)
+        private static void InitRoomRoom(Room room)
         {
-            Status.RoomBox = room.GetBoundingBox(Doc);
-            Status.RoomEdges = room.GetEdgeList();
-            Status.RowNum = 1;
-            Status.IsLastRow = false;
-            Status.InsBox = Status.RoomBox.GetInsBox(PickBox);
-            Status.InsEdges = Status.InsBox.GetPlaneEdges();
+            RoomBox = room.GetBoundingBox(Doc);
+            RoomEdges = room.GetEdgeList();
+            RowNum = 1;
+            InsBox = RoomBox.GetInsBox(PickBox);
+            InsEdges = InsBox.GetPlaneEdges();
         }
 
         private static bool CanPut(XYZ pt)
         {
-            return pt.InPlanePolygon(Status.InsEdges) && pt.InPlanePolygon(Status.RoomEdges);
+            return pt.InPlanePolygon(InsEdges) && pt.InPlanePolygon(RoomEdges);
         }
 
         private static List<Room> GetRoomListOnFloor()

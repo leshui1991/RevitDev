@@ -87,7 +87,6 @@
     <Compile Include="Command\ElementCopyCommand.cs" />
     <Compile Include="Common\SeatManager.cs" />
     <Compile Include="Common\TestGeometry.cs" />
-    <Compile Include="Entity\DesignStatus.cs" />
     <Compile Include="Entity\SeatInfo.cs" />
     <Compile Include="Entity\SeatPlan.cs" />
     <Compile Include="Common\SeatDesignAssist.cs" />
