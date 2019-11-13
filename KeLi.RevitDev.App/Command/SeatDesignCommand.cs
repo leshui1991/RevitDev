@@ -72,7 +72,7 @@ namespace KeLi.RevitDev.App.Command
             }
 
             var box = uidoc.Selection.PickBox(PickBoxStyle.Enclosing, "Please pick selection box!");
-            var request = new PositionRequest(4200, 1500, true);
+            var request = new PositionRequest(4200, 1500);
             var batches = new List<SeatBatch>
             {
                 new SeatBatch(1800, 800, 50, new Color(180, 55, 33)),
