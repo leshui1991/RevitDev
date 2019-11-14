@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI.Selection;
@@ -92,15 +93,23 @@ namespace KeLi.RevitDev.App.Common
             PickBox = box.ToBoundingBoxXYZ();
             PickEdges = PickBox.GetPlaneEdges();
             FillPattern = doc.GetFirstFillPattern();
-            RefSeat = doc.GetFloorSeats().FirstOrDefault();
+            RefSeat = doc.Get90Seat();
 
             if (RefSeat == null)
             {
-                MessageBox.Show("The document has's any seat, please put a seat!");
+                MessageBox.Show("The document hasn't any 90° seat, please put one!");
                 return;
             }
 
             var floorRooms = GetRoomListOnFloor();
+            var sb = new StringBuilder();
+            foreach (var floorRoom in floorRooms)
+            {
+                sb.AppendLine(floorRoom.Name);
+            }
+
+            MessageBox.Show(sb.ToString());
+
             var seatInfos = GetSeatInfosOnFloor(floorRooms, batches);
 
             PutSeatList(doc, seatInfos);
@@ -122,6 +131,8 @@ namespace KeLi.RevitDev.App.Common
 
                 var alignBottom = !room.Name.Contains(Resources.RoomName_North);
                 var nextPt = GetStartPoint(alignBottom);
+
+                var sd = (nextPt.X - InsBox.Min.X) / Request.RowWidth;
 
                 for (var i = 0; i < currentBatches.Count; i++)
                 {
@@ -154,9 +165,7 @@ namespace KeLi.RevitDev.App.Common
                     if (currentBatches[i].UsableNumber == 0)
                         continue;
 
-                    var seatInfos = GetSeatInfosOnBatch(currentBatches[i], ref nextPt, alignBottom);
-
-                    results.AddRange(seatInfos);
+                    results.AddRange(GetSeatInfosOnBatch(currentBatches[i], ref nextPt, alignBottom));
                 }
             }
 
@@ -351,21 +360,15 @@ namespace KeLi.RevitDev.App.Common
 
         private static List<Room> GetRoomListOnFloor()
         {
-            var rooms = Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>();
+            var rooms = Doc.GetCategoryElements(BuiltInCategory.OST_Rooms, true).Cast<Room>().ToList();
             var results = new List<Room>();
-            var boxVectors = PickBox.GetPlaneVectors();
 
             foreach (var room in rooms)
             {
                 var roomEdges = room.GetEdgeList();
-                var roomVectors = roomEdges.GetDistinctPointList();
-                var boxPtInRoom = boxVectors.Any(a => a.InPlanePolygon(roomEdges));
-                var roomPtInBox = roomVectors.Any(a => a.InPlanePolygon(PickEdges));
 
-                if (!boxPtInRoom && !roomPtInBox)
-                    continue;
-
-                results.Add(room);
+                if (roomEdges.Any(a => a.GetPlaneInsPointList(PickEdges).Any(w => w != null)))
+                    results.Add(room);
             }
 
             return results;

@@ -1670,7 +1670,7 @@
         </member>
         <member name="M:KeLi.Common.Revit.Widget.BoxUtil.ToBoundingBoxXYZ(Autodesk.Revit.UI.Selection.PickedBox)">
             <summary>
-            Converts to bouding box.
+            Converts to bounding box.
             </summary>
             <param name="box"></param>
             <returns></returns>

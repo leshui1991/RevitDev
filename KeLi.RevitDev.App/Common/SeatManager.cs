@@ -46,6 +46,7 @@
         /_==__==========__==_ooo__ooo=_/'   /___________,"
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
@@ -61,6 +62,12 @@ namespace KeLi.RevitDev.App.Common
         {
             return doc.GetTypeElements<FamilyInstance>(BuiltInCategory.OST_Furniture)
                 .Where(w => w.LevelId == doc.ActiveView.GenLevel.Id).ToList();
+        }
+
+        public static FamilyInstance Get90Seat(this Document doc)
+        {
+            return doc.GetTypeElements<FamilyInstance>(BuiltInCategory.OST_Furniture)
+                .FirstOrDefault(w => Math.Abs((w.Location as LocationPoint).Rotation - Math.PI / 2) < 10e-3);
         }
 
         public static FillPatternElement GetFirstFillPattern(this Document doc)
